@@ -22,7 +22,7 @@ class Blokserializer(serializers.HyperlinkedModelSerializer):
 class Cijferserializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Cijfer
-        fields = ('id', 'cijfer', 'toets_id', 'blok_id', 'student_id')
+        fields = ('id', 'cijfer', 'toets', 'blok', 'student')
 
 
 
