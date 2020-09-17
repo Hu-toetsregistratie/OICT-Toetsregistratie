@@ -20,6 +20,10 @@ class Blokserializer(serializers.HyperlinkedModelSerializer):
 
 
 class Cijferserializer(serializers.HyperlinkedModelSerializer):
+    student = serializers.StringRelatedField()
+    toets = serializers.StringRelatedField()
+    blok = serializers.StringRelatedField()
+
     class Meta:
         model = Cijfer
         fields = ('id', 'cijfer', 'toets', 'blok', 'student')
