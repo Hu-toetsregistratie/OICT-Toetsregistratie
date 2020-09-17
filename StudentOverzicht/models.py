@@ -26,7 +26,7 @@ class Student(models.Model):
         return self.voornaam
 
 class Cijfer(models.Model):
-    cijfer = models.IntegerField(default=0)
+    cijfer = models.FloatField(default=0)
     blok = models.OneToOneField(Blok, on_delete=models.CASCADE, default=0)
     toets = models.OneToOneField(Toets, on_delete=models.CASCADE, default=0)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=0)
