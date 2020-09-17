@@ -2,45 +2,49 @@ from django.shortcuts import render
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import Studentserializer, Blokserializer, Cijferserializer, Toetsserializer
 from StudentOverzicht.models import Student, Blok, Cijfer, Toets
+from rest_framework import permissions
+from rest_framework import viewsets
 
 # Create your views here.
-class StudentList(ListAPIView):
+class StudentList(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = Studentserializer
 
 
-class StudentDetail(RetrieveAPIView):
+
+class StudentDetail(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = Studentserializer
 
+
+
 ##############################################
 
-class BlokList(ListAPIView):
+class BlokList(viewsets.ModelViewSet):
     queryset = Blok.objects.all()
     serializer_class = Blokserializer
 
-
-class BlokDetail(RetrieveAPIView):
+class BlokDetail(viewsets.ModelViewSet):
     queryset = Blok.objects.all()
     serializer_class = Blokserializer
 
 ##############################################
-class CijferList(ListAPIView):
+class CijferList(viewsets.ModelViewSet):
     queryset = Cijfer.objects.all()
     serializer_class = Cijferserializer
 
 
-class CijferDetail(RetrieveAPIView):
+class CijferDetail(viewsets.ModelViewSet):
     queryset = Cijfer.objects.all()
     serializer_class = Cijferserializer
 
 ##############################################
 
-class ToetsList(ListAPIView):
+class ToetsList(viewsets.ModelViewSet):
     queryset = Toets.objects.all()
     serializer_class = Toetsserializer
 
 
-class ToetsDetail(RetrieveAPIView):
+class ToetsDetail(viewsets.ModelViewSet):
     queryset = Toets.objects.all()
     serializer_class = Toetsserializer
