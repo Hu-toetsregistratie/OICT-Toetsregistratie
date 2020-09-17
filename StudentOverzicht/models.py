@@ -22,6 +22,7 @@ class Student(models.Model):
     voornaam = models.CharField(max_length=10, default='')
     achternaam = models.CharField(max_length=10, default='')
 
+
     def __str__(self):
         return self.voornaam
 

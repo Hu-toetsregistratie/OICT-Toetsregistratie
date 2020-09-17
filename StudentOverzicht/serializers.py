@@ -3,10 +3,6 @@ from .models import Student, Blok, Cijfer, Toets
 
 
 
-class Studentserializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = ('id', 'voornaam', 'achternaam')
 
 
 
@@ -37,3 +33,12 @@ class Toetsserializer(serializers.ModelSerializer):
     class Meta:
         model = Toets
         fields = ('id', 'toets')
+
+
+class Studentserializer(serializers.ModelSerializer):
+
+    achternaam = Cijferserializer()
+
+    class Meta:
+        model = Student
+        fields = ('id', 'voornaam', 'achternaam')

@@ -48,3 +48,4 @@ class ToetsList(viewsets.ModelViewSet):
 class ToetsDetail(viewsets.ModelViewSet):
     queryset = Toets.objects.all()
     serializer_class = Toetsserializer
+###############################################
