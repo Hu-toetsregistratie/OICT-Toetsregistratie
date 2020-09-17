@@ -27,8 +27,8 @@ class Student(models.Model):
 
 class Cijfer(models.Model):
     cijfer = models.FloatField(default=0)
-    blok = models.OneToOneField(Blok, on_delete=models.CASCADE, default=0)
-    toets = models.OneToOneField(Toets, on_delete=models.CASCADE, default=0)
+    blok = models.ForeignKey(Blok, on_delete=models.CASCADE, default=0)
+    toets = models.ForeignKey(Toets, on_delete=models.CASCADE, default=0)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
