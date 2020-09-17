@@ -31,4 +31,4 @@ class Cijferserializer(serializers.HyperlinkedModelSerializer):
 class Toetsserializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Toets
-        fields = ('id', 'toets')
+        fields = ('id', 'toets_code')
