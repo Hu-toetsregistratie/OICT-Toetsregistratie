@@ -2,20 +2,29 @@ from rest_framework import serializers
 from .models import Student, Blok, Cijfer, Toets
 
 
-class Studentserializer(serializers.HyperlinkedModelSerializer):
+
+class Studentserializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ('id', 'voornaam', 'achternaam')
 
 
-class Blokserializer(serializers.HyperlinkedModelSerializer):
+
+class Blokserializer(serializers.ModelSerializer):
     class Meta:
         model = Blok
         fields = ('id', 'blok')
 
 
-class Cijferserializer(serializers.HyperlinkedModelSerializer):
-    student = serializers.StringRelatedField()
+class Student_Naam(serializers.ModelSerializer):
+
+    class Meta:
+        model = Student
+        fields = ('voornaam', 'achternaam')
+
+
+class Cijferserializer(serializers.ModelSerializer):
+    student = Student_Naam()
     toets = serializers.StringRelatedField()
     blok = serializers.StringRelatedField()
 
@@ -24,7 +33,7 @@ class Cijferserializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'cijfer', 'toets', 'blok', 'student')
 
 
-class Toetsserializer(serializers.HyperlinkedModelSerializer):
+class Toetsserializer(serializers.ModelSerializer):
     class Meta:
         model = Toets
-        fields = ('id', 'toets_code')
+        fields = ('id', 'toets')
