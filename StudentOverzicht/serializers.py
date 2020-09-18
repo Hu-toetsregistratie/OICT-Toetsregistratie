@@ -48,7 +48,6 @@ class Toetsserializer(serializers.ModelSerializer):
 
 class Studentserializer(serializers.ModelSerializer):
 
-
     class Meta:
         model = Student
         fields = ('id', 'voornaam', 'achternaam')
