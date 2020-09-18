@@ -25,8 +25,8 @@ class Student_Naam(serializers.ModelSerializer):
 
 class Cijferserializer(serializers.ModelSerializer):
     student = Student_Naam()
-    toets = serializers.StringRelatedField()
-    blok = serializers.StringRelatedField()
+    toets = serializers.StringRelatedField(read_only=False)
+    blok = serializers.StringRelatedField(read_only=False)
 
     class Meta:
         model = Cijfer
@@ -36,4 +36,4 @@ class Cijferserializer(serializers.ModelSerializer):
 class Toetsserializer(serializers.ModelSerializer):
     class Meta:
         model = Toets
-        fields = ('id', 'toets')
+        fields = ('id', 'toets_code')

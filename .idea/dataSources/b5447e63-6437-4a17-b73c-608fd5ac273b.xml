@@ -184,7 +184,7 @@ toets_id</ColNames>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="53" parent="10" name="toets">
+    <column id="53" parent="10" name="toets_code">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
