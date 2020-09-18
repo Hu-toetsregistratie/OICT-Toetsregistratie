@@ -29,6 +29,16 @@ class Cijferserializer(serializers.ModelSerializer):
         fields = ('id', 'cijfer', 'toets', 'blok', 'student')
 
 
+class Cijfer_ID_serializer(serializers.ModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(read_only=True)
+    toets = serializers.PrimaryKeyRelatedField( read_only=True)
+    blok = serializers.PrimaryKeyRelatedField(read_only=True)
+    student = serializers.PrimaryKeyRelatedField( read_only=True)
+
+    class Meta:
+        model = Cijfer
+        fields = ('id', 'cijfer', 'toets', 'blok', 'student')
+
 class Toetsserializer(serializers.ModelSerializer):
     class Meta:
         model = Toets
@@ -36,6 +46,7 @@ class Toetsserializer(serializers.ModelSerializer):
 
 
 class Studentserializer(serializers.ModelSerializer):
+
 
     class Meta:
         model = Student
