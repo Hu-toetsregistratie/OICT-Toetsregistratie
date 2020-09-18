@@ -43,7 +43,7 @@ class Cijfer_ID_serializer(serializers.ModelSerializer):
 class Toetsserializer(serializers.ModelSerializer):
     class Meta:
         model = Toets
-        fields = ('id', 'toets')
+        fields = ('id', 'toets_code')
 
 
 class Studentserializer(serializers.ModelSerializer):
