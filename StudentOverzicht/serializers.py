@@ -35,6 +35,7 @@ class Cijfer_ID_serializer(serializers.ModelSerializer):
     blok = serializers.PrimaryKeyRelatedField(read_only=True)
     student = serializers.PrimaryKeyRelatedField( read_only=True)
 
+
     class Meta:
         model = Cijfer
         fields = ('id', 'cijfer', 'toets', 'blok', 'student')
