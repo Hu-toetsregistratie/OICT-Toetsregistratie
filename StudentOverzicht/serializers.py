@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+
 from .models import Student, Blok, Cijfer, Toets
 
 
@@ -24,20 +26,24 @@ class Cijferserializer(serializers.ModelSerializer):
     toets = serializers.StringRelatedField()
     blok = serializers.StringRelatedField()
 
+    def create(self, validated_data):
+        return Cijfer(**validated_data)
+
     class Meta:
         model = Cijfer
         fields = ('id', 'cijfer', 'toets', 'blok', 'student')
 
 
 class Cijfer_ID_serializer(serializers.ModelSerializer):
-    student = serializers.PrimaryKeyRelatedField(read_only=True)
-    toets = serializers.PrimaryKeyRelatedField( read_only=True)
-    blok = serializers.PrimaryKeyRelatedField(read_only=True)
+    student = serializers.PrimaryKeyRelatedField(queryset=Cijfer.objects.all())
+    toets = serializers.PrimaryKeyRelatedField(queryset=Cijfer.objects.all())
+    blok = serializers.PrimaryKeyRelatedField(queryset=Cijfer.objects.all())
 
 
     class Meta:
         model = Cijfer
         fields = ('id', 'voldoende', 'toets', 'blok', 'student')
+
 
 class Toetsserializer(serializers.ModelSerializer):
     class Meta:
