@@ -31,18 +31,18 @@ class Cijferserializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cijfer
-        fields = ('id', 'cijfer', 'toets', 'blok', 'student')
+        fields = ('id', 'voldoende', 'toets', 'blok', 'student')
 
 
 class Cijfer_ID_serializer(serializers.ModelSerializer):
-    student = serializers.PrimaryKeyRelatedField(queryset=Cijfer.objects.all())
-    toets = serializers.PrimaryKeyRelatedField(queryset=Cijfer.objects.all())
-    blok = serializers.PrimaryKeyRelatedField(queryset=Cijfer.objects.all())
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+    toets_code = serializers.PrimaryKeyRelatedField(queryset=Toets.objects.all())
+    blok = serializers.PrimaryKeyRelatedField(queryset=Blok.objects.all())
 
 
     class Meta:
         model = Cijfer
-        fields = ('id', 'voldoende', 'toets', 'blok', 'student')
+        fields = ('id', 'toets_code', 'blok', 'student','voldoende')
 
 
 class Toetsserializer(serializers.ModelSerializer):
