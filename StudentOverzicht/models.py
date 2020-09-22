@@ -5,6 +5,7 @@ from django.db import models
 
 class Toets(models.Model):
     toets_code = models.CharField(max_length=45, default='')
+    toets_naam = models.CharField(max_length=45, default='')
 
     def __str__(self):
         return self.toets_code
