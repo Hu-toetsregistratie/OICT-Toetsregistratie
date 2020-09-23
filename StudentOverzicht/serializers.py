@@ -56,3 +56,10 @@ class Studentserializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ('id', 'voornaam', 'achternaam')
+
+
+class Toets_Full(serializers.ModelSerializer):
+
+    class Meta:
+        model = Toets
+        fields = ('id', 'toets_code', 'toets_naam', 'jaar')
