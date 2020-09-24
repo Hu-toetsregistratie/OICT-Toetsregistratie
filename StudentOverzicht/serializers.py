@@ -23,7 +23,7 @@ class Student_Naam(serializers.ModelSerializer):
 
 class Cijferserializer(serializers.ModelSerializer):
     student = Student_Naam()
-    toets = serializers.StringRelatedField()
+    toets_code = serializers.StringRelatedField()
     blok = serializers.StringRelatedField()
 
     def create(self, validated_data):
@@ -31,7 +31,7 @@ class Cijferserializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cijfer
-        fields = ('id', 'voldoende', 'toets', 'blok', 'student')
+        fields = ('id', 'voldoende', 'toets_code', 'blok', 'student')
 
 
 class Cijfer_ID_serializer(serializers.ModelSerializer):
@@ -48,7 +48,7 @@ class Cijfer_ID_serializer(serializers.ModelSerializer):
 class Toetsserializer(serializers.ModelSerializer):
     class Meta:
         model = Toets
-        fields = ('id', 'toets_code')
+        fields = ('id', 'toets_code', 'toets_naam')
 
 
 class Studentserializer(serializers.ModelSerializer):
