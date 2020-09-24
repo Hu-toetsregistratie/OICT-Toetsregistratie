@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from .serializers import Studentserializer, Blokserializer, Cijferserializer, Toetsserializer, Cijfer_ID_serializer
+from .serializers import Studentserializer, Blokserializer, Cijferserializer, Toetsserializer, Cijfer_ID_serializer, Toets_Full
 from StudentOverzicht.models import Student, Blok, Cijfer, Toets
 from rest_framework import permissions
 from rest_framework import viewsets
@@ -52,3 +52,9 @@ class ToetsDetail(viewsets.ModelViewSet):
 class Cijfer_ID(viewsets.ModelViewSet):
     queryset = Cijfer.objects.all()
     serializer_class = Cijfer_ID_serializer
+
+
+
+class Toets_Full(viewsets.ModelViewSet):
+    queryset = Toets.objects.all()
+    serializer_class = Toets_Full

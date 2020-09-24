@@ -11,7 +11,7 @@ router.register(r'toets', views.ToetsList)
 router.register(r'blok', views.BlokList)
 router.register(r'cijfer', views.CijferList)
 router.register(r'cijferid', views.Cijfer_ID)
-
+router.register(r'toets_full', views.Toets_Full)
 
 
 urlpatterns = [
