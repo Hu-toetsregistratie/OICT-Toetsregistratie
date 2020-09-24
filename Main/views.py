@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import Studentserializer, Blokserializer, Cijferserializer, Toetsserializer, Cijfer_ID_serializer, Toets_Full
-from StudentOverzicht.models import Student, Blok, Cijfer, Toets
+from Main.models import Student, Blok, Cijfer, Toets
 from rest_framework import permissions
 from rest_framework import viewsets
 
