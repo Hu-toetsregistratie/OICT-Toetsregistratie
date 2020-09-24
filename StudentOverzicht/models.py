@@ -16,10 +16,9 @@ class Toets(models.Model):
     jaar = models.IntegerField(default=0)
     blok = models.ManyToManyField(Blok)
 
+
     def __str__(self):
         return self.toets_code
-
-
 
 
 class Student(models.Model):
