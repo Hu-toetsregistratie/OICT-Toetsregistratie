@@ -24,7 +24,7 @@ import Main
 urlpatterns = [
     path('', admin.site.urls),
     path('admin/', admin.site.urls),
-    path('api/', include('StudentOverzicht.urls')),
+    path('api/', include('Main.urls')),
 ]
 
 

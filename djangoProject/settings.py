@@ -42,8 +42,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'Testpage',
-    'main',
-    'StudentOverzicht',
+    'Main',
+
 ]
 
 MIDDLEWARE = [
