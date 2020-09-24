@@ -48,7 +48,7 @@ class Cijfer_ID_serializer(serializers.ModelSerializer):
 class Toetsserializer(serializers.ModelSerializer):
     class Meta:
         model = Toets
-        fields = ('id', 'toets_code', 'toets_naam')
+        fields = ('id', 'toets_code', 'toets_naam', 'jaar')
 
 
 class Studentserializer(serializers.ModelSerializer):
