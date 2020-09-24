@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 
 from .models import Student, Blok, Cijfer, Toets
 
@@ -48,7 +47,7 @@ class Cijfer_ID_serializer(serializers.ModelSerializer):
 class Toetsserializer(serializers.ModelSerializer):
     class Meta:
         model = Toets
-        fields = ('id', 'toets_code', 'toets_naam', 'jaar')
+        fields = ('id', 'toets_code', 'toets_naam', 'jaar', 'blok')
 
 
 class Studentserializer(serializers.ModelSerializer):

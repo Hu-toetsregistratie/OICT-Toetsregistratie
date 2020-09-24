@@ -3,21 +3,23 @@ from django.db import models
 # Create your models here.
 
 
+class Blok(models.Model):
+    blok = models.CharField(max_length=45, default='')
+
+    def __str__(self):
+        return self.blok
+
+
 class Toets(models.Model):
     toets_code = models.CharField(max_length=45, default='')
     toets_naam = models.CharField(max_length=45, default='')
     jaar = models.IntegerField(default=0)
+    blok = models.ManyToManyField(Blok)
 
     def __str__(self):
         return self.toets_code
 
 
-class Blok(models.Model):
-    blok = models.CharField(max_length=45, default='')
-    toetsen = models.ManyToManyField(Toets)
-
-    def __str__(self):
-        return self.blok
 
 
 class Student(models.Model):
