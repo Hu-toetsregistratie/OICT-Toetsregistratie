@@ -24,6 +24,7 @@ class Toets(models.Model):
 class Student(models.Model):
     voornaam = models.CharField(max_length=10, default='')
     achternaam = models.CharField(max_length=10, default='')
+    student_nummer = models.IntegerField(default=0)
 
 
     def __str__(self):
