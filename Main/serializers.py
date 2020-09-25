@@ -4,11 +4,6 @@ from .models import Student, Blok, Cijfer, Toets
 from django.http import JsonResponse
 
 
-
-
-
-
-
 class Blokserializer(serializers.ModelSerializer):
     class Meta:
         model = Blok
