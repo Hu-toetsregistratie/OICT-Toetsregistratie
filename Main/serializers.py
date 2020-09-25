@@ -14,7 +14,7 @@ class Student_Naam(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('voornaam', 'achternaam')
+        fields = ('voornaam', 'achternaam', 'student_nummer')
 
 
 class Cijferserializer(serializers.ModelSerializer):
