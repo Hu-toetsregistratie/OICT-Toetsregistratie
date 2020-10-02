@@ -1,4 +1,4 @@
-
+from django.conf.urls import url
 from django.urls import include, path
 
 from . import views
@@ -17,6 +17,7 @@ router.register(r'toets_full', views.Toets_Full)
 urlpatterns = [
 
     path('', include(router.urls)),
+
 
     #path("student/", views.StudentList()),
     #path("student/<pk>", views.StudentDetail),

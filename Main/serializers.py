@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from .models import Student, Blok, Cijfer, Toets
-from django.http import JsonResponse
 
 
 class Blokserializer(serializers.ModelSerializer):
@@ -54,14 +53,10 @@ class Toetsserializer(serializers.ModelSerializer):
 
 class Studentserializer(serializers.ModelSerializer):
 
-    cijfers = serializers.SerializerMethodField()
-
     class Meta:
         model = Student
-        fields = ['id', 'voornaam', 'achternaam', 'cijfers']
+        fields = ['id', 'voornaam', 'achternaam', 'student_nummer']
 
-    def get_cijfers(self, obj):
-        return ('TEMP')
 
 
 class Toets_Full(serializers.ModelSerializer):
