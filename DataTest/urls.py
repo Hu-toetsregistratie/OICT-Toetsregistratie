@@ -22,10 +22,7 @@ import Main
 
 
 urlpatterns = [
-    path('', admin.site.urls), #admin pagina
-    path('admin/', admin.site.urls), #admin pagina
-    path('api/', include('Main.urls')), #include main app urls
-    path('test/', include('DataTest.urls')), #include DataTest app urls
+
 ]
 
 
