@@ -22,9 +22,9 @@ import Main
 
 
 urlpatterns = [
-    path('', admin.site.urls),
-    path('admin/', admin.site.urls),
-    path('api/', include('Main.urls')),
+    path('', admin.site.urls), #admin pagina
+    path('admin/', admin.site.urls), #admin pagina
+    path('api/', include('Main.urls')), #include main app urls
 ]
 
 
