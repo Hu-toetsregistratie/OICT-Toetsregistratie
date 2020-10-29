@@ -3,6 +3,7 @@ from django.db import models
 
 class Blok(models.Model):
     blok = models.CharField(max_length=45, default='')
+    jaar = models.IntegerField(default=1)
 
     def __str__(self):
         # zet de naam van de entry als blok
