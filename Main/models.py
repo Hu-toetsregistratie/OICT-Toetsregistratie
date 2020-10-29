@@ -1,12 +1,11 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Blok(models.Model):
     blok = models.CharField(max_length=45, default='')
 
     def __str__(self):
+        # zet de naam van de entry als blok
         return self.blok
 
 
@@ -16,8 +15,8 @@ class Toets(models.Model):
     jaar = models.IntegerField(default=0)
     blok = models.ManyToManyField(Blok)
 
-
     def __str__(self):
+        # zet de naam van de entry als toets_code
         return self.toets_code
 
 
@@ -26,8 +25,8 @@ class Student(models.Model):
     achternaam = models.CharField(max_length=10, default='')
     student_nummer = models.IntegerField(default=0)
 
-
     def __str__(self):
+        # zet de naam van de entry als voornaam
         return self.voornaam
 
 class Cijfer(models.Model):
@@ -37,5 +36,6 @@ class Cijfer(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
+        # zet de naam van de entry als "blok - voldoende"
         return "%s" % self.blok + " - %s" % self.voldoende
 
