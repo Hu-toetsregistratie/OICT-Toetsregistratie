@@ -6,7 +6,7 @@ from .models import Student, Blok, Cijfer, Toets
 class Blokserializer(serializers.ModelSerializer): #serializer voor de blok api
     class Meta:
         model = Blok
-        fields = ('id', 'blok')
+        fields = ('id', 'blok', 'jaar')
 
 
 class Student_Naam(serializers.ModelSerializer): #serializer voor student in Cijfereserializer
@@ -43,7 +43,7 @@ class Cijfer_ID_serializer(serializers.ModelSerializer): #serializer voor de Cij
 
 class Toetsserializer(serializers.ModelSerializer): #serializer voor de Toetsen
 
-    blok = serializers.PrimaryKeyRelatedField(many=True, queryset=Blok.objects.all())
+    blok = serializers.PrimaryKeyRelatedField(queryset=Blok.objects.all())
 
     class Meta:
         model = Toets
