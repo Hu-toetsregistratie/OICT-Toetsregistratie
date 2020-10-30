@@ -1,3 +1,4 @@
+
 import random
 
 from django.http import HttpResponse, HttpResponseRedirect
@@ -115,4 +116,9 @@ def export_to_csv(val1=4, val2=4, val3=4, val4=4, val5=4, val6=4, jaar=4, filena
 
 
 
+
+
+from django.shortcuts import render
+
+# Create your views here.
 
