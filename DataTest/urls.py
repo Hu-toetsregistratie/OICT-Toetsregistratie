@@ -16,13 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from . import views
+
+
+
 import Main
 
 
 
 
 urlpatterns = [
-
+    path("", views.DataTest_Main),
+    path("1", views.DataTest_Jaar_Toets_Resultaat_Pogingen),
+    path("2", views.DataTest_blok),
+    path("G1", views.blok_gen),
+    path("G2", views.run_toets_gen)
 ]
 
 
