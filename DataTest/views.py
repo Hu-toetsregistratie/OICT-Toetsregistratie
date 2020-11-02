@@ -210,16 +210,19 @@ def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
     data_columns = ["voldoende", "blok", "student", "toets_code"]
     Cijfer_df = pd.DataFrame(columns=data_columns)
 
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year, 1))
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2))
+
     if year ==1:
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year, 1))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2))
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2, 1))
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year, 3, 1))
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year, 4, 1))
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 4, 2))
     else:
-        Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year, 3))
-        Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year, 4))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year, 1, 2))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2, 2))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year, 3, 2))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year, 4, 2))
 
 
     Cijfer_df.to_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers{}.csv'.format(filename)), index=False)
@@ -240,7 +243,7 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
         else:
             cijfer_voldoende_list.append(False)
 
-        cijfer_toets_code_list.append(((jaar - 1) * 4) + 1 + toetsOffset)
+        cijfer_toets_code_list.append(((jaar - 1) * 4) + blok + toetsOffset)
         cijfer_blok_list.append(blok)
         cijfer_student_list.append(x + 1)
 
