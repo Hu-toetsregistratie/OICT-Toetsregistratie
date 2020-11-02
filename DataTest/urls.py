@@ -29,8 +29,12 @@ urlpatterns = [
     path("", views.DataTest_Main),
     path("1", views.DataTest_Jaar_Toets_Resultaat_Pogingen),
     path("2", views.DataTest_blok),
+    path("3", views.DataTest_student),
+    path("4", views.DataTest_cijfer),
     path("G1", views.blok_gen),
-    path("G2", views.run_toets_gen)
+    path("G2", views.run_toets_gen),
+    path("G3", views.run_student_gen),
+    path("G4", views.run_cijfer_gen),
 ]
 
 
