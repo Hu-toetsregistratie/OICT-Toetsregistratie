@@ -8,21 +8,23 @@ import numpy as np
 import pandas as pd
 from rest_framework import request
 
-from Main.models import Blok, Toets, Student
+from Main.models import Blok, Toets, Student, Cijfer
 from django.contrib import messages
 
 DIRNAME = os.path.dirname(__file__)
 
 
 def DataTest_Main(self):
-    html = "<h1>Data Test pagina</h1>" \
-           "<html><body>Test page <br> </body></html>" \
-           '<a href="./1"> Run Toets (blok moet gedaan zijn) <br></a>' \
-           '<a href="./2"> Run Blok <br></a>' \
-           '<a href="./3"> Run student <br></a>' \
-           '<a href="./G1"> Generate Blok <br></a>' \
-           '<a href="./G2"> Generate Toets <br></a>' \
-           '<a href="./G3"> Generate Student <br></a>'
+    html =  "<h1>Data Test pagina</h1>" \
+            "<html><body>Test page <br> </body></html>" \
+            '<a href="./1"> Run Toets (blok moet gedaan zijn) <br></a>' \
+            '<a href="./2"> Run Blok <br></a>' \
+            '<a href="./3"> Run student <br></a>' \
+            '<a href="./4"> Run cijfers <br></a>' \
+            '<a href="./G1"> Generate Blok <br></a>' \
+            '<a href="./G2"> Generate Toets <br></a>' \
+            '<a href="./G3"> Generate Student <br></a>' \
+            '<a href="./G4"> Generate cijfers <br></a>'
 
     return HttpResponse(html)
 
@@ -66,6 +68,21 @@ def DataTest_student(self):
                     voornaam=row[0],
                     achternaam=row[1],
                     student_nummer=row[2],
+                )
+    return HttpResponse(Rows)
+
+def DataTest_cijfer(self):
+    Rows = []
+    for x in range(4):
+        with open(os.path.join(DIRNAME, 'TestData', 'Cijfers{}.csv'.format(x + 1)), 'r') as file:
+            reader = csv.reader(file)
+            next(reader, None)  # skip the headers
+            for row in reader:
+                _, created = Cijfer.objects.get_or_create(
+                    voldoende=row[0],
+                    blok_id=row[1],
+                    student_id=row[2],
+                    toets_code_id=row[3]
                 )
     return HttpResponse(Rows)
 
@@ -182,10 +199,10 @@ def list_loop(val1, jaar=1, blok=1):
 
 
 def run_cijfer_gen(self):
-    CijferGen(filename=1, year = 1)
-    CijferGen(filename=2, year = 2)
-    CijferGen(filename=3, year = 3)
-    CijferGen(filename=4, year = 4)
+    CijferGen(filename=1, year=1)
+    CijferGen(filename=2, year=2)
+    CijferGen(filename=3, year=3)
+    CijferGen(filename=4, year=4)
     return HttpResponse()
 
 
@@ -193,43 +210,40 @@ def CijferGen(val1=40, val2=40, val3=40, val4=40, filename='', year = 1):
     data_columns = ["voldoende", "blok", "student", "toets_code"]
     Cijfer_df = pd.DataFrame(columns=data_columns)
 
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year))
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year))
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year))
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year))
+    Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year, 1))
+    Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2))
+    Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year, 3))
+    Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year, 4))
 
     Cijfer_df.to_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers{}.csv'.format(filename)), index=False)
 
 
-def Cijfer_loop(val1, jaar = 1):
+def Cijfer_loop(val1, jaar = 1, blok = 1):
     cijfer_voldoende_list = []
     cijfer_blok_list = []
     cijfer_student_list = []
     cijfer_toets_code_list = []
 
     data_columns = ["voldoende", "blok", "student", "toets_code"]
+
     if jaar == 1:
+        i = 0
         p = 6
     else:
+        i = 2
         p = 4
 
     for q in range(p):
         for x in range(val1):
 
             if random.choice([0, 1]) == 1:
-                cijfer_voldoende_list.append(random.randrange(True))
+                cijfer_voldoende_list.append(True)
             else:
-                cijfer_voldoende_list.append(random.randrange(False))
+                cijfer_voldoende_list.append(False)
 
-            cijfer_toets_code_list.append(p)
-            cijfer_student_list.append(x)
-
-
-        for y in range(4):
-            for z in range(val1/4):
-                cijfer_blok_list.append(((jaar - 1) * 4) + y)
-
-
+            cijfer_toets_code_list.append(((jaar - 1) * 4) + q + 1 + i)
+            cijfer_blok_list.append(blok)
+            cijfer_student_list.append(x + 1)
 
     MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list ]).transpose()
     Cijfer_df = pd.DataFrame(MYCijferarray, columns=data_columns)
