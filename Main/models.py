@@ -18,7 +18,6 @@ class Toets(models.Model):
     blok = models.ForeignKey(Blok,on_delete=models.CASCADE, default=0)
 
 
-
     def __str__(self):
         # zet de naam van de entry als toets_code
         return self.toets_code
