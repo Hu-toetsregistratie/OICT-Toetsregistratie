@@ -206,19 +206,29 @@ def run_cijfer_gen(self):
     return HttpResponse()
 
 
-def CijferGen(val1=40, val2=40, val3=40, val4=40, filename='', year = 1):
+def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
     data_columns = ["voldoende", "blok", "student", "toets_code"]
     Cijfer_df = pd.DataFrame(columns=data_columns)
 
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year, 1))
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2))
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year, 3))
-    Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year, 4))
+
+    if year ==1:
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year, 1))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2, 1))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year, 3, 1))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year, 4, 1))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 4, 2))
+    else:
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year, 1, 2))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2, 2))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year, 3, 2))
+        Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year, 4, 2))
+
 
     Cijfer_df.to_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers{}.csv'.format(filename)), index=False)
 
 
-def Cijfer_loop(val1, jaar = 1, blok = 1):
+def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
     cijfer_voldoende_list = []
     cijfer_blok_list = []
     cijfer_student_list = []
@@ -226,24 +236,16 @@ def Cijfer_loop(val1, jaar = 1, blok = 1):
 
     data_columns = ["voldoende", "blok", "student", "toets_code"]
 
-    if jaar == 1:
-        i = 0
-        p = 6
-    else:
-        i = 2
-        p = 4
+    for x in range(val1):
 
-    for q in range(p):
-        for x in range(val1):
+        if random.choice([0, 1]) == 1:
+            cijfer_voldoende_list.append(True)
+        else:
+            cijfer_voldoende_list.append(False)
 
-            if random.choice([0, 1]) == 1:
-                cijfer_voldoende_list.append(True)
-            else:
-                cijfer_voldoende_list.append(False)
-
-            cijfer_toets_code_list.append(((jaar - 1) * 4) + q + 1 + i)
-            cijfer_blok_list.append(blok)
-            cijfer_student_list.append(x + 1)
+        cijfer_toets_code_list.append(((jaar - 1) * 4) + blok + toetsOffset)
+        cijfer_blok_list.append(blok)
+        cijfer_student_list.append(x + 1)
 
     MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list ]).transpose()
     Cijfer_df = pd.DataFrame(MYCijferarray, columns=data_columns)
