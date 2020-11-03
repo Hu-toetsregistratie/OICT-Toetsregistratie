@@ -16,7 +16,6 @@ class Toets(models.Model):
     jaar = models.IntegerField(default=0)
 
     blok = models.ForeignKey(Blok,on_delete=models.CASCADE, default=0)
-    blok = models.ManyToManyField(Blok)
 
 
     def __str__(self):
