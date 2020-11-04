@@ -23,7 +23,11 @@ class CijferList(viewsets.ModelViewSet):
     queryset = Cijfer.objects.all()
     serializer_class = Cijferserializer
     filter_backends = [DjangoFilterBackend]
+<<<<<<< HEAD
     filterset_fields = ['id', 'voldoende', 'toets_code', 'blok', 'student', 'student__voornaam']
+=======
+    filterset_fields = ['id', 'voldoende', 'toets_code', 'blok', 'student', 'student__voornaam','student__student_nummer']
+>>>>>>> origin/master
 
 ##############################################
 
