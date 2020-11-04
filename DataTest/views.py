@@ -41,6 +41,7 @@ def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
                     toets_naam=row[1],
                     jaar=row[2],
                     blok=Blok(row[3]),
+                    volgorde=row[4]
                 )
     return HttpResponse(Rows)
 
@@ -82,7 +83,8 @@ def DataTest_cijfer(self):
                     voldoende=row[0],
                     blok_id=row[1],
                     student_id=row[2],
-                    toets_code_id=row[3]
+                    toets_code_id=row[3],
+                    toets_naam=Toets(row[3])
                 )
     return HttpResponse(Rows)
 
@@ -217,7 +219,7 @@ def run_cijfer_gen(self):
 
 
 def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
-    data_columns = ["voldoende", "blok", "student", "toets_code"]
+    data_columns = ["voldoende", "blok", "student", "toets_code", 'toets_naam']
     Cijfer_df = pd.DataFrame(columns=data_columns)
 
 
@@ -243,8 +245,9 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
     cijfer_blok_list = []
     cijfer_student_list = []
     cijfer_toets_code_list = []
+    cijfer_toets_naam_list = []
 
-    data_columns = ["voldoende", "blok", "student", "toets_code"]
+    data_columns = ["voldoende", "blok", "student", "toets_code", 'toets_naam']
 
     for x in range(val1):
 
@@ -254,9 +257,10 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
             cijfer_voldoende_list.append(False)
 
         cijfer_toets_code_list.append(((jaar - 1) * 4) + blok + toetsOffset)
+        cijfer_toets_naam_list.append(((jaar - 1) * 4) + blok + toetsOffset)
         cijfer_blok_list.append(blok)
         cijfer_student_list.append(x + 1)
 
-    MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list ]).transpose()
+    MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list, cijfer_toets_naam_list ]).transpose()
     Cijfer_df = pd.DataFrame(MYCijferarray, columns=data_columns)
     return Cijfer_df

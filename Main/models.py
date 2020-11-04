@@ -15,6 +15,7 @@ class Toets(models.Model):
     toets_naam = models.CharField(max_length=45, default='')
     jaar = models.IntegerField(default=0)
     blok = models.ForeignKey(Blok,on_delete=models.CASCADE, default=0)
+    volgorde = models.IntegerField(default=1)
 
 
     def __str__(self):
@@ -34,10 +35,10 @@ class Student(models.Model):
 class Cijfer(models.Model):
     voldoende = models.BooleanField(default=False)
     blok = models.ForeignKey(Blok, on_delete=models.CASCADE, default=0)
-    toets_code = models.ForeignKey(Toets, on_delete=models.CASCADE, default=0)
+    toets_code = models.ForeignKey(Toets, on_delete=models.CASCADE, default=0, related_name='toetsCode')
+    toets_naam = models.ForeignKey(Toets, on_delete=models.CASCADE, default=0)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=0)
-    datum_toets = models.CharField(max_length=10, default=None)
-    volgorde = models.IntegerField(default=1)
+    datum_toets = models.CharField(max_length=10, default="00-00-2020")
 
     def __str__(self):
         # zet de naam van de entry als "blok - voldoende"
