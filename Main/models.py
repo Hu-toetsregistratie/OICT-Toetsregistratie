@@ -37,6 +37,7 @@ class Cijfer(models.Model):
     toets_code = models.ForeignKey(Toets, on_delete=models.CASCADE, default=0)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=0)
     datum_toets = models.CharField(max_length=10, default=None)
+    volgorde = models.IntegerField(default=1)
 
     def __str__(self):
         # zet de naam van de entry als "blok - voldoende"

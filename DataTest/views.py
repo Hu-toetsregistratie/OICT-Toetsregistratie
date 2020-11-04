@@ -166,32 +166,42 @@ def export_to_csv(val1=1, val2=1, val3=1, val4=1, val5=1, val6=1, jaar=4, filena
     data_columns = ["toets_code", "toets_naam", "jaar", "blok"]
     Toets_df = pd.DataFrame(columns=data_columns)
 
-    Toets_df = Toets_df.append(list_loop(val1, jaar, (((jaar - 1) * 4) + 1)))
-    Toets_df = Toets_df.append(list_loop(val2, jaar, (((jaar - 1) * 4) + 2)))
+    Toets_df = Toets_df.append(list_loop(val1, jaar, (((jaar - 1) * 4) + 1), 1))
+    Toets_df = Toets_df.append(list_loop(val2, jaar, (((jaar - 1) * 4) + 2), 2))
     if jaar == 1:
-        Toets_df = Toets_df.append(list_loop(val3, jaar, (((jaar - 1) * 4) + 2)))
-    Toets_df = Toets_df.append(list_loop(val4, jaar, (((jaar - 1) * 4) + 3)))
-    Toets_df = Toets_df.append(list_loop(val5, jaar, (((jaar - 1) * 4) + 4)))
-    if jaar == 1:
-        Toets_df = Toets_df.append(list_loop(val6, jaar, (((jaar - 1) * 4) + 4)))
+        Toets_df = Toets_df.append(list_loop(val3, jaar, (((jaar - 1) * 4) + 2), 3))
+        Toets_df = Toets_df.append(list_loop(val4, jaar, (((jaar - 1) * 4) + 3), 4))
+        Toets_df = Toets_df.append(list_loop(val5, jaar, (((jaar - 1) * 4) + 4), 5))
+        Toets_df = Toets_df.append(list_loop(val6, jaar, (((jaar - 1) * 4) + 4), 6))
+    else:
+        Toets_df = Toets_df.append(list_loop(val4, jaar, (((jaar - 1) * 4) + 3), 3))
+        Toets_df = Toets_df.append(list_loop(val5, jaar, (((jaar - 1) * 4) + 4), 4))
 
     Toets_df.to_csv(os.path.join(DIRNAME, 'TestData', 'Toets_jaar{}.csv'.format(filename)), index=False)
 
 
-def list_loop(val1, jaar=1, blok=1):
+def list_loop(val1, jaar=1, blok=1, nummer = 1):
     toets_code_list = []
     toets_naam_list = []
     jaar_list = []
     blok_list = []
+    volgorde_list = []
 
-    data_columns = ["toets_code", "toets_naam", "jaar", "blok"]
+    data_columns = ["toets_code", "toets_naam", "jaar", "blok", "volgorde"]
 
     for x in range(val1):
         toets_code_list.append(random.randrange(1000000, 9999999))
-        toets_naam_list.append("Toets {}".format(x + 1))
+        if jaar == 1:
+            toets_naam_list.append("Toets {}".format(((jaar - 1) * 4) + nummer))
+            volgorde_list.append(((jaar - 1) * 4) + nummer)
+        else:
+            toets_naam_list.append("Toets {}".format(((jaar - 1) * 4) + nummer + 2))
+            volgorde_list.append(((jaar - 1) * 4) + nummer + 2)
+
         jaar_list.append(jaar)
         blok_list.append(blok)
-    MYarray = np.array([toets_code_list, toets_naam_list, jaar_list, blok_list]).transpose()
+
+    MYarray = np.array([toets_code_list, toets_naam_list, jaar_list, blok_list, volgorde_list]).transpose()
     grades_of_the_year_df = pd.DataFrame(MYarray, columns=data_columns)
     return grades_of_the_year_df
 
