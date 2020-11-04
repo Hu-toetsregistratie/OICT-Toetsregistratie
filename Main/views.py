@@ -25,6 +25,7 @@ class CijferList(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['id', 'voldoende', 'toets_code', 'blok', 'student', 'student__voornaam','student__student_nummer']
 
+
 ##############################################
 
 class ToetsList(viewsets.ModelViewSet):
