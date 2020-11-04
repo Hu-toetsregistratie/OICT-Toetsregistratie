@@ -15,5 +15,11 @@
         </library>
       </libraries>
     </data-source>
+    <data-source source="LOCAL" name="db driver - db.sqlite3" uuid="4b5c4894-92da-474d-9857-80086dae5b00">
+      <driver-ref>9d93da6c-3c82-4e48-b7be-b1815cd7be89</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite3</jdbc-url>
+    </data-source>
   </component>
 </project>
