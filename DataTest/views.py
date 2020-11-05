@@ -326,7 +326,7 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
 
     for x in range(val1):
 
-        if random.choice([0, 10]) != 1:
+        if random.randrange(0, 10) != 1:
             cijfer_voldoende_list.append(True)
         else:
             cijfer_voldoende_list.append(False)
