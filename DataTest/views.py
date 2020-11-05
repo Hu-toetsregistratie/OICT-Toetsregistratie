@@ -327,3 +327,17 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
     MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list, cijfer_toets_naam_list ]).transpose()
     Cijfer_df = pd.DataFrame(MYCijferarray, columns=data_columns)
     return Cijfer_df
+
+
+
+def Run_all_gen_test(self):
+    blok_gen(self)
+    run_toets_gen(self)
+    run_cijfer_gen(self)
+    run_student_gen(self)
+    DataTest_student(self)
+    DataTest_blok(self)
+    DataTest_Jaar_Toets_Resultaat_Pogingen(self)
+    DataTest_cijfer(self)
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+

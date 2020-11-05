@@ -27,7 +27,7 @@ class Cijferserializer(serializers.ModelSerializer): #serializer voor de Cijfer 
 
     class Meta:
         model = Cijfer
-        fields = ('id', 'voldoende', 'toets_code', 'blok', 'student', 'datum_toets', 'volgorde')
+        fields = ('id', 'voldoende', 'toets_code', 'blok', 'student', 'datum_toets')
 
 
 class Cijfer_ID_serializer(serializers.ModelSerializer): #serializer voor de Cijfer ID's
