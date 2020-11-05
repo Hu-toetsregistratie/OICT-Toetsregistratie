@@ -7,11 +7,18 @@ import os
 import numpy as np
 import pandas as pd
 from rest_framework import request
+from PIL import Image
+
 
 from Main.models import Blok, Toets, Student, Cijfer
 from django.contrib import messages
 
 DIRNAME = os.path.dirname(__file__)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+from django.template import RequestContext, Template, Context
+from django.conf import settings
 
 
 def DataTest_Main(self):
@@ -28,6 +35,65 @@ def DataTest_Main(self):
 
     return HttpResponse(html)
 
+def save_graph(filename, dataset, graph_title):
+    grafiek = sns.countplot(data=dataset,
+                            x="toets_code",
+                            hue="voldoende",
+                            hue_order=[0, 1],
+                            palette="viridis").set_title(graph_title)
+
+    # het positioneren van de legenda
+    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+    # locatie van de output
+    filepath = 'TestData/'
+    # instantieren van de figure
+    fig = grafiek.get_figure()
+    # het opslaan van de grafiek
+    fig.savefig(os.path.join(DIRNAME, filepath, filename), bbox_inches='tight')
+    # Zorgen dat de legenda en grafiek wordt gereset
+    plt.clf()
+    plt.close()
+
+    image_data = open(os.path.join(DIRNAME, filepath, filename), "rb").read()
+    return HttpResponse(image_data)
+
+
+def graph_gen(self):
+    df_grades_all = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'grades_all.csv'), index_col=False)
+
+    df_grades_all.Jaar.astype('str')
+
+    df_grades_y1 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers1.csv'))
+    df_grades_y2 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers2.csv'))
+    df_grades_y3 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers3.csv'))
+    df_grades_y4 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers4.csv'))
+
+    save_graph(filename='grafiek_jaar1.png', dataset=df_grades_y1, graph_title='Resultaten van Jaar 1')
+    save_graph(filename='grafiek_jaar2.png', dataset=df_grades_y2, graph_title='Resultaten van Jaar 2')
+    save_graph(filename='grafiek_jaar3.png', dataset=df_grades_y3, graph_title='Resultaten van Jaar 3')
+    save_graph(filename='grafiek_jaar4.png', dataset=df_grades_y4, graph_title='Resultaten van Jaar 4')
+
+    image_data1 = Image.open(os.path.join(DIRNAME, "TestData", "grafiek_jaar1.png"))
+    image_data2 = Image.open(os.path.join(DIRNAME, "TestData", "grafiek_jaar2.png"))
+    image_data3 = Image.open(os.path.join(DIRNAME, "TestData", "grafiek_jaar3.png"))
+    image_data4 = Image.open(os.path.join(DIRNAME, "TestData", "grafiek_jaar4.png"))
+
+    image_data1_size = image_data1.size
+
+    main_image = Image.new('RGB', (2 * image_data1_size[0], 2 * image_data1_size[1]), (250, 250, 250))
+
+    main_image.paste(image_data1, (0, 0))
+    main_image.paste(image_data2, (image_data1_size[0], 0))
+    main_image.paste(image_data3, (0, image_data1_size[1]))
+    main_image.paste(image_data4, (image_data1_size[0], image_data1_size[1]))
+    main_image.save(os.path.join(DIRNAME, "TestData", "full_graph.png"))
+
+    image_data_main = open(os.path.join(DIRNAME, "TestData", "full_graph.png"), "rb").read()
+
+    return HttpResponse(image_data_main, content_type="image/png")
+
+
 
 def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
     Rows = []
@@ -41,6 +107,7 @@ def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
                     toets_naam=row[1],
                     jaar=row[2],
                     blok=Blok(row[3]),
+                    volgorde=row[4]
                 )
     return HttpResponse(Rows)
 
@@ -82,7 +149,8 @@ def DataTest_cijfer(self):
                     voldoende=row[0],
                     blok_id=row[1],
                     student_id=row[2],
-                    toets_code_id=row[3]
+                    toets_code_id=row[3],
+                    toets_naam=Toets(row[3])
                 )
     return HttpResponse(Rows)
 
@@ -166,32 +234,42 @@ def export_to_csv(val1=1, val2=1, val3=1, val4=1, val5=1, val6=1, jaar=4, filena
     data_columns = ["toets_code", "toets_naam", "jaar", "blok"]
     Toets_df = pd.DataFrame(columns=data_columns)
 
-    Toets_df = Toets_df.append(list_loop(val1, jaar, (((jaar - 1) * 4) + 1)))
-    Toets_df = Toets_df.append(list_loop(val2, jaar, (((jaar - 1) * 4) + 2)))
+    Toets_df = Toets_df.append(list_loop(val1, jaar, (((jaar - 1) * 4) + 1), 1))
+    Toets_df = Toets_df.append(list_loop(val2, jaar, (((jaar - 1) * 4) + 2), 2))
     if jaar == 1:
-        Toets_df = Toets_df.append(list_loop(val3, jaar, (((jaar - 1) * 4) + 2)))
-    Toets_df = Toets_df.append(list_loop(val4, jaar, (((jaar - 1) * 4) + 3)))
-    Toets_df = Toets_df.append(list_loop(val5, jaar, (((jaar - 1) * 4) + 4)))
-    if jaar == 1:
-        Toets_df = Toets_df.append(list_loop(val6, jaar, (((jaar - 1) * 4) + 4)))
+        Toets_df = Toets_df.append(list_loop(val3, jaar, (((jaar - 1) * 4) + 2), 3))
+        Toets_df = Toets_df.append(list_loop(val4, jaar, (((jaar - 1) * 4) + 3), 4))
+        Toets_df = Toets_df.append(list_loop(val5, jaar, (((jaar - 1) * 4) + 4), 5))
+        Toets_df = Toets_df.append(list_loop(val6, jaar, (((jaar - 1) * 4) + 4), 6))
+    else:
+        Toets_df = Toets_df.append(list_loop(val4, jaar, (((jaar - 1) * 4) + 3), 3))
+        Toets_df = Toets_df.append(list_loop(val5, jaar, (((jaar - 1) * 4) + 4), 4))
 
     Toets_df.to_csv(os.path.join(DIRNAME, 'TestData', 'Toets_jaar{}.csv'.format(filename)), index=False)
 
 
-def list_loop(val1, jaar=1, blok=1):
+def list_loop(val1, jaar=1, blok=1, nummer = 1):
     toets_code_list = []
     toets_naam_list = []
     jaar_list = []
     blok_list = []
+    volgorde_list = []
 
-    data_columns = ["toets_code", "toets_naam", "jaar", "blok"]
+    data_columns = ["toets_code", "toets_naam", "jaar", "blok", "volgorde"]
 
     for x in range(val1):
         toets_code_list.append(random.randrange(1000000, 9999999))
-        toets_naam_list.append("Toets {}".format(x + 1))
+        if jaar == 1:
+            toets_naam_list.append("Toets {}".format(((jaar - 1) * 4) + nummer))
+            volgorde_list.append(((jaar - 1) * 4) + nummer)
+        else:
+            toets_naam_list.append("Toets {}".format(((jaar - 1) * 4) + nummer + 2))
+            volgorde_list.append(((jaar - 1) * 4) + nummer + 2)
+
         jaar_list.append(jaar)
         blok_list.append(blok)
-    MYarray = np.array([toets_code_list, toets_naam_list, jaar_list, blok_list]).transpose()
+
+    MYarray = np.array([toets_code_list, toets_naam_list, jaar_list, blok_list, volgorde_list]).transpose()
     grades_of_the_year_df = pd.DataFrame(MYarray, columns=data_columns)
     return grades_of_the_year_df
 
@@ -233,8 +311,10 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
     cijfer_blok_list = []
     cijfer_student_list = []
     cijfer_toets_code_list = []
+    cijfer_toets_naam_list = []
 
-    data_columns = ["voldoende", "blok", "student", "toets_code"]
+    data_columns = ["voldoende", "blok", "student", "toets_code", 'toets_naam']
+
 
     for x in range(val1):
 
@@ -244,6 +324,7 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
             cijfer_voldoende_list.append(False)
 
         cijfer_toets_code_list.append(((jaar - 1) * 4) + blok + toetsOffset)
+        cijfer_toets_naam_list.append(((jaar - 1) * 4) + blok + toetsOffset)
         cijfer_blok_list.append(blok)
         cijfer_student_list.append(x + 1)
 
