@@ -31,7 +31,8 @@ def DataTest_Main(self):
             '<a href="./G1"> Generate Blok <br></a>' \
             '<a href="./G2"> Generate Toets <br></a>' \
             '<a href="./G3"> Generate Student <br></a>' \
-            '<a href="./G4"> Generate cijfers <br></a>'
+            '<a href="./G4"> Generate cijfers <br></a>' \
+            '<a href="./G5"> Generate grafiek <br></a>'
 
     return HttpResponse(html)
 
@@ -109,8 +110,7 @@ def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
                     blok=Blok(row[3]),
                     volgorde=row[4]
                 )
-    return HttpResponse(Rows)
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def DataTest_blok(self):
     Rows = []
@@ -122,7 +122,7 @@ def DataTest_blok(self):
                 blok=row[1],
                 jaar=row[0],
             )
-    return HttpResponse(Rows)
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def DataTest_student(self):
     Rows = []
@@ -136,7 +136,7 @@ def DataTest_student(self):
                     achternaam=row[1],
                     student_nummer=row[2],
                 )
-    return HttpResponse(Rows)
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def DataTest_cijfer(self):
     Rows = []
@@ -152,8 +152,7 @@ def DataTest_cijfer(self):
                     toets_code_id=row[3],
                     toets_naam=Toets(row[3])
                 )
-    return HttpResponse(Rows)
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 
 
@@ -176,7 +175,7 @@ def blok_gen(self):
     blok_columns = ["Jaar", "Blok"]
     blok = pd.DataFrame(MYarray, columns=blok_columns)
     blok.to_csv(os.path.join(DIRNAME, 'TestData', 'blok.csv'), index=False)
-    return HttpResponseRedirect("/test/")
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 
 ##########################################################
@@ -186,8 +185,7 @@ def run_student_gen(self):
     StudentGen(filename=2)
     StudentGen(filename=3)
     StudentGen(filename=4)
-    return HttpResponse()
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def StudentGen(val1=10, val2=10, val3=10, val4=10, filename=''):
     data_columns = ["voornaam", "achternaam", "student_nummer"]
@@ -225,8 +223,7 @@ def run_toets_gen(self):
     export_to_csv(jaar=2, filename=2)
     export_to_csv(jaar=3, filename=3)
     export_to_csv(jaar=4, filename=4)
-    return HttpResponse()
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def export_to_csv(val1=1, val2=1, val3=1, val4=1, val5=1, val6=1, jaar=4, filename=''):
     # Het maken van de dataframe: "grades_of_the_year_df"
@@ -281,8 +278,7 @@ def run_cijfer_gen(self):
     CijferGen(filename=2, year=2)
     CijferGen(filename=3, year=3)
     CijferGen(filename=4, year=4)
-    return HttpResponse()
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
     data_columns = ["voldoende", "blok", "student", "toets_code"]
