@@ -324,6 +324,6 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
         cijfer_blok_list.append(blok)
         cijfer_student_list.append(x + 1)
 
-    MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list ]).transpose()
+    MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list, cijfer_toets_naam_list ]).transpose()
     Cijfer_df = pd.DataFrame(MYCijferarray, columns=data_columns)
     return Cijfer_df
