@@ -95,6 +95,18 @@ def graph_gen(self):
     return HttpResponse(image_data_main, content_type="image/png")
 
 
+def stat_gen(self):
+    df_success_all = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y1.csv'), index_col=False)
+
+    df_success_y1 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y1.csv'))
+    df_success_y2 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y2.csv'))
+    df_success_y3 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y2.csv'))
+    df_success_y4 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y4.csv'))
+
+    html_df = df_success_y1.to_html(index=False) + df_success_y2.to_html(index=False) + df_success_y3.to_html(index=False) + df_success_y4.to_html(index=False)
+
+    return HttpResponse(html_df)
+
 
 def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
     Rows = []
@@ -150,7 +162,7 @@ def DataTest_cijfer(self):
                     blok_id=row[1],
                     student_id=row[2],
                     toets_code_id=row[3],
-                    toets_naam=Toets(row[3])
+                    toets_naam_id=row[3]
                 )
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
@@ -281,7 +293,7 @@ def run_cijfer_gen(self):
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
-    data_columns = ["voldoende", "blok", "student", "toets_code"]
+    data_columns = ["voldoende", "blok", "student", "toets_code", "toets_naam"]
     Cijfer_df = pd.DataFrame(columns=data_columns)
 
 
@@ -314,7 +326,7 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
 
     for x in range(val1):
 
-        if random.choice([0, 1]) == 1:
+        if random.choice([0, 10]) != 1:
             cijfer_voldoende_list.append(True)
         else:
             cijfer_voldoende_list.append(False)
