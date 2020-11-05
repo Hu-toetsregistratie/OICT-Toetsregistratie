@@ -7,11 +7,18 @@ import os
 import numpy as np
 import pandas as pd
 from rest_framework import request
+from PIL import Image
+
 
 from Main.models import Blok, Toets, Student, Cijfer
 from django.contrib import messages
 
 DIRNAME = os.path.dirname(__file__)
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+from django.template import RequestContext, Template, Context
+from django.conf import settings
 
 
 def DataTest_Main(self):
@@ -24,9 +31,69 @@ def DataTest_Main(self):
             '<a href="./G1"> Generate Blok <br></a>' \
             '<a href="./G2"> Generate Toets <br></a>' \
             '<a href="./G3"> Generate Student <br></a>' \
-            '<a href="./G4"> Generate cijfers <br></a>'
+            '<a href="./G4"> Generate cijfers <br></a>' \
+            '<a href="./G5"> Generate grafiek <br></a>'
 
     return HttpResponse(html)
+
+def save_graph(filename, dataset, graph_title):
+    grafiek = sns.countplot(data=dataset,
+                            x="toets_code",
+                            hue="voldoende",
+                            hue_order=[0, 1],
+                            palette="viridis").set_title(graph_title)
+
+    # het positioneren van de legenda
+    plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+    # locatie van de output
+    filepath = 'TestData/'
+    # instantieren van de figure
+    fig = grafiek.get_figure()
+    # het opslaan van de grafiek
+    fig.savefig(os.path.join(DIRNAME, filepath, filename), bbox_inches='tight')
+    # Zorgen dat de legenda en grafiek wordt gereset
+    plt.clf()
+    plt.close()
+
+    image_data = open(os.path.join(DIRNAME, filepath, filename), "rb").read()
+    return HttpResponse(image_data)
+
+
+def graph_gen(self):
+    df_grades_all = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'grades_all.csv'), index_col=False)
+
+    df_grades_all.Jaar.astype('str')
+
+    df_grades_y1 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers1.csv'))
+    df_grades_y2 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers2.csv'))
+    df_grades_y3 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers3.csv'))
+    df_grades_y4 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers4.csv'))
+
+    save_graph(filename='grafiek_jaar1.png', dataset=df_grades_y1, graph_title='Resultaten van Jaar 1')
+    save_graph(filename='grafiek_jaar2.png', dataset=df_grades_y2, graph_title='Resultaten van Jaar 2')
+    save_graph(filename='grafiek_jaar3.png', dataset=df_grades_y3, graph_title='Resultaten van Jaar 3')
+    save_graph(filename='grafiek_jaar4.png', dataset=df_grades_y4, graph_title='Resultaten van Jaar 4')
+
+    image_data1 = Image.open(os.path.join(DIRNAME, "TestData", "grafiek_jaar1.png"))
+    image_data2 = Image.open(os.path.join(DIRNAME, "TestData", "grafiek_jaar2.png"))
+    image_data3 = Image.open(os.path.join(DIRNAME, "TestData", "grafiek_jaar3.png"))
+    image_data4 = Image.open(os.path.join(DIRNAME, "TestData", "grafiek_jaar4.png"))
+
+    image_data1_size = image_data1.size
+
+    main_image = Image.new('RGB', (2 * image_data1_size[0], 2 * image_data1_size[1]), (250, 250, 250))
+
+    main_image.paste(image_data1, (0, 0))
+    main_image.paste(image_data2, (image_data1_size[0], 0))
+    main_image.paste(image_data3, (0, image_data1_size[1]))
+    main_image.paste(image_data4, (image_data1_size[0], image_data1_size[1]))
+    main_image.save(os.path.join(DIRNAME, "TestData", "full_graph.png"))
+
+    image_data_main = open(os.path.join(DIRNAME, "TestData", "full_graph.png"), "rb").read()
+
+    return HttpResponse(image_data_main, content_type="image/png")
+
 
 
 def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
@@ -43,8 +110,7 @@ def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
                     blok=Blok(row[3]),
                     volgorde=row[4]
                 )
-    return HttpResponse(Rows)
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def DataTest_blok(self):
     Rows = []
@@ -56,7 +122,7 @@ def DataTest_blok(self):
                 blok=row[1],
                 jaar=row[0],
             )
-    return HttpResponse(Rows)
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def DataTest_student(self):
     Rows = []
@@ -70,7 +136,7 @@ def DataTest_student(self):
                     achternaam=row[1],
                     student_nummer=row[2],
                 )
-    return HttpResponse(Rows)
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def DataTest_cijfer(self):
     Rows = []
@@ -86,8 +152,7 @@ def DataTest_cijfer(self):
                     toets_code_id=row[3],
                     toets_naam=Toets(row[3])
                 )
-    return HttpResponse(Rows)
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 
 
@@ -110,7 +175,7 @@ def blok_gen(self):
     blok_columns = ["Jaar", "Blok"]
     blok = pd.DataFrame(MYarray, columns=blok_columns)
     blok.to_csv(os.path.join(DIRNAME, 'TestData', 'blok.csv'), index=False)
-    return HttpResponseRedirect("/test/")
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 
 ##########################################################
@@ -120,8 +185,7 @@ def run_student_gen(self):
     StudentGen(filename=2)
     StudentGen(filename=3)
     StudentGen(filename=4)
-    return HttpResponse()
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def StudentGen(val1=10, val2=10, val3=10, val4=10, filename=''):
     data_columns = ["voornaam", "achternaam", "student_nummer"]
@@ -159,8 +223,7 @@ def run_toets_gen(self):
     export_to_csv(jaar=2, filename=2)
     export_to_csv(jaar=3, filename=3)
     export_to_csv(jaar=4, filename=4)
-    return HttpResponse()
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def export_to_csv(val1=1, val2=1, val3=1, val4=1, val5=1, val6=1, jaar=4, filename=''):
     # Het maken van de dataframe: "grades_of_the_year_df"
@@ -215,11 +278,10 @@ def run_cijfer_gen(self):
     CijferGen(filename=2, year=2)
     CijferGen(filename=3, year=3)
     CijferGen(filename=4, year=4)
-    return HttpResponse()
-
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
 def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
-    data_columns = ["voldoende", "blok", "student", "toets_code", 'toets_naam']
+    data_columns = ["voldoende", "blok", "student", "toets_code"]
     Cijfer_df = pd.DataFrame(columns=data_columns)
 
 
@@ -249,6 +311,7 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
 
     data_columns = ["voldoende", "blok", "student", "toets_code", 'toets_naam']
 
+
     for x in range(val1):
 
         if random.choice([0, 1]) == 1:
@@ -261,6 +324,6 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
         cijfer_blok_list.append(blok)
         cijfer_student_list.append(x + 1)
 
-    MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list, cijfer_toets_naam_list ]).transpose()
+    MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list ]).transpose()
     Cijfer_df = pd.DataFrame(MYCijferarray, columns=data_columns)
     return Cijfer_df
