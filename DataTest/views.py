@@ -341,3 +341,17 @@ def Run_all_gen_test(self):
     DataTest_cijfer(self)
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
+
+
+
+def Run_all_gen_test(self):
+    blok_gen(self)
+    run_toets_gen(self)
+    run_cijfer_gen(self)
+    run_student_gen(self)
+    DataTest_student(self)
+    DataTest_blok(self)
+    DataTest_Jaar_Toets_Resultaat_Pogingen(self)
+    DataTest_cijfer(self)
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+
