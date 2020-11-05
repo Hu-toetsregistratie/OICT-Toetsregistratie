@@ -35,6 +35,8 @@ urlpatterns = [
     path("G2", views.run_toets_gen),
     path("G3", views.run_student_gen),
     path("G4", views.run_cijfer_gen),
+    path("G5", views.graph_gen),
+
 ]
 
 
