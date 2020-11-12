@@ -9,7 +9,6 @@ import pandas as pd
 from rest_framework import request
 from PIL import Image
 
-
 from Main.models import Blok, Toets, Student, Cijfer
 from django.contrib import messages
 
@@ -22,19 +21,20 @@ from django.conf import settings
 
 
 def DataTest_Main(self):
-    html =  "<h1>Data Test pagina</h1>" \
-            "<html><body>Test page <br> </body></html>" \
-            '<a href="./1"> Run Toets (blok moet gedaan zijn) <br></a>' \
-            '<a href="./2"> Run Blok <br></a>' \
-            '<a href="./3"> Run student <br></a>' \
-            '<a href="./4"> Run cijfers <br></a>' \
-            '<a href="./G1"> Generate Blok <br></a>' \
-            '<a href="./G2"> Generate Toets <br></a>' \
-            '<a href="./G3"> Generate Student <br></a>' \
-            '<a href="./G4"> Generate cijfers <br></a>' \
-            '<a href="./G5"> Generate grafiek <br></a>'
+    html = "<h1>Data Test pagina</h1>" \
+           "<html><body>Test page <br> </body></html>" \
+           '<a href="./1"> Run Toets (blok moet gedaan zijn) <br></a>' \
+           '<a href="./2"> Run Blok <br></a>' \
+           '<a href="./3"> Run student <br></a>' \
+           '<a href="./4"> Run cijfers <br></a>' \
+           '<a href="./G1"> Generate Blok <br></a>' \
+           '<a href="./G2"> Generate Toets <br></a>' \
+           '<a href="./G3"> Generate Student <br></a>' \
+           '<a href="./G4"> Generate cijfers <br></a>' \
+           '<a href="./G5"> Generate grafiek <br></a>'
 
     return HttpResponse(html)
+
 
 def save_graph(filename, dataset, graph_title):
     grafiek = sns.countplot(data=dataset,
@@ -103,7 +103,8 @@ def stat_gen(self):
     df_success_y3 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y2.csv'))
     df_success_y4 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y4.csv'))
 
-    html_df = df_success_y1.to_html(index=False) + df_success_y2.to_html(index=False) + df_success_y3.to_html(index=False) + df_success_y4.to_html(index=False)
+    html_df = df_success_y1.to_html(index=False) + df_success_y2.to_html(index=False) + df_success_y3.to_html(
+        index=False) + df_success_y4.to_html(index=False)
 
     return HttpResponse(html_df)
 
@@ -124,6 +125,7 @@ def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
                 )
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
+
 def DataTest_blok(self):
     Rows = []
     with open(os.path.join(DIRNAME, 'TestData', 'blok.csv'), 'r') as file:
@@ -135,6 +137,7 @@ def DataTest_blok(self):
                 jaar=row[0],
             )
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+
 
 def DataTest_student(self):
     Rows = []
@@ -149,6 +152,7 @@ def DataTest_student(self):
                     student_nummer=row[2],
                 )
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+
 
 def DataTest_cijfer(self):
     Rows = []
@@ -165,8 +169,6 @@ def DataTest_cijfer(self):
                     toets_naam_id=row[3]
                 )
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
-
-
 
 
 ##############################################
@@ -198,6 +200,7 @@ def run_student_gen(self):
     StudentGen(filename=3)
     StudentGen(filename=4)
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+
 
 def StudentGen(val1=10, val2=10, val3=10, val4=10, filename=''):
     data_columns = ["voornaam", "achternaam", "student_nummer"]
@@ -237,6 +240,7 @@ def run_toets_gen(self):
     export_to_csv(jaar=4, filename=4)
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
 
+
 def export_to_csv(val1=1, val2=1, val3=1, val4=1, val5=1, val6=1, jaar=4, filename=''):
     # Het maken van de dataframe: "grades_of_the_year_df"
 
@@ -257,7 +261,7 @@ def export_to_csv(val1=1, val2=1, val3=1, val4=1, val5=1, val6=1, jaar=4, filena
     Toets_df.to_csv(os.path.join(DIRNAME, 'TestData', 'Toets_jaar{}.csv'.format(filename)), index=False)
 
 
-def list_loop(val1, jaar=1, blok=1, nummer = 1):
+def list_loop(val1, jaar=1, blok=1, nummer=1):
     toets_code_list = []
     toets_naam_list = []
     jaar_list = []
@@ -282,6 +286,7 @@ def list_loop(val1, jaar=1, blok=1, nummer = 1):
     grades_of_the_year_df = pd.DataFrame(MYarray, columns=data_columns)
     return grades_of_the_year_df
 
+
 #########################################################
 
 
@@ -292,12 +297,12 @@ def run_cijfer_gen(self):
     CijferGen(filename=4, year=4)
     return HttpResponseRedirect("http://62.251.126.253:63343/statistiek.html")
 
-def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
+
+def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year=1):
     data_columns = ["voldoende", "blok", "student", "toets_code", "toets_naam"]
     Cijfer_df = pd.DataFrame(columns=data_columns)
 
-
-    if year ==1:
+    if year == 1:
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val1, year, 1))
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2))
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val2, year, 2, 1))
@@ -310,11 +315,10 @@ def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val3, year, 3, 2))
         Cijfer_df = Cijfer_df.append(Cijfer_loop(val4, year, 4, 2))
 
-
     Cijfer_df.to_csv(os.path.join(DIRNAME, 'TestData', 'Cijfers{}.csv'.format(filename)), index=False)
 
 
-def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
+def Cijfer_loop(val1, jaar=1, blok=1, toetsOffset=0):
     cijfer_voldoende_list = []
     cijfer_blok_list = []
     cijfer_student_list = []
@@ -322,7 +326,6 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
     cijfer_toets_naam_list = []
 
     data_columns = ["voldoende", "blok", "student", "toets_code", 'toets_naam']
-
 
     for x in range(val1):
 
@@ -336,10 +339,10 @@ def Cijfer_loop(val1, jaar = 1, blok = 1, toetsOffset = 0):
         cijfer_blok_list.append(blok)
         cijfer_student_list.append(x + 1)
 
-    MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list,cijfer_toets_code_list, cijfer_toets_naam_list ]).transpose()
+    MYCijferarray = np.array([cijfer_voldoende_list, cijfer_blok_list, cijfer_student_list, cijfer_toets_code_list,
+                              cijfer_toets_naam_list]).transpose()
     Cijfer_df = pd.DataFrame(MYCijferarray, columns=data_columns)
     return Cijfer_df
-
 
 
 def Run_all_gen_test(self):
