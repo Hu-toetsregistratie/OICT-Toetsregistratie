@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import Studentserializer, Blokserializer, Cijferserializer, Toetsserializer, Cijfer_ID_serializer
+from .serializers import Studentserializer, Blokserializer, Cijferserializer, Toetsserializer, Cijfer_ID_serializer, Toetsserializer2
 from Main.models import Student, Blok, Cijfer, Toets
 from rest_framework import viewsets
 
@@ -35,11 +35,11 @@ class ToetsList(viewsets.ModelViewSet):
     filterset_fields = ['id', 'toets_code', 'toets_naam', 'jaar', 'blok']
 
 
-class ToetsDetail(viewsets.ModelViewSet):
+class Toets2(viewsets.ModelViewSet):
     queryset = Toets.objects.all()
-    serializer_class = Toetsserializer
+    serializer_class = Toetsserializer2
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['id', 'toets_code', 'toets_naam', 'jaar', 'blok']
+    filterset_fields = ['id', 'toets_code']
 
 ###############################################
 class Cijfer_ID(viewsets.ModelViewSet):
