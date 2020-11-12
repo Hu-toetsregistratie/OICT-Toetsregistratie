@@ -290,7 +290,7 @@ def run_cijfer_gen(self):
     CijferGen(filename=2, year=2)
     CijferGen(filename=3, year=3)
     CijferGen(filename=4, year=4)
-    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+    return HttpResponseRedirect("http://62.251.126.253:63343/statistiek.html")
 
 def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year = 1):
     data_columns = ["voldoende", "blok", "student", "toets_code", "toets_naam"]
