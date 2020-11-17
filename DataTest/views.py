@@ -7,6 +7,7 @@ import os
 import numpy as np
 import pandas as pd
 from rest_framework import request
+from PIL import Image
 
 from Main.models import Blok, Toets, Student, Cijfer
 from django.contrib import messages

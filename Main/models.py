@@ -18,7 +18,6 @@ class Toets(models.Model):
     volgorde = models.IntegerField(default=1)
 
 
-
     def __str__(self):
         # zet de naam van de entry als toets_code
         return self.toets_code
@@ -38,7 +37,6 @@ class Cijfer(models.Model):
     blok = models.ForeignKey(Blok, on_delete=models.CASCADE, default=0)
     toets_code = models.ForeignKey(Toets, on_delete=models.CASCADE, default=0, related_name='toetsCode')
     toets_naam = models.ForeignKey(Toets, on_delete=models.CASCADE, default=0)
-    toets_code = models.ForeignKey(Toets, on_delete=models.CASCADE, default=0, related_name='toetsCode')
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=0)
     datum_toets = models.CharField(max_length=10, default="00-00-2020")
 
