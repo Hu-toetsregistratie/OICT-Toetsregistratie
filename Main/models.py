@@ -28,6 +28,7 @@ class Student(models.Model):
     achternaam = models.CharField(max_length=10, default='')
     student_nummer = models.IntegerField(default=0)
 
+
     def __str__(self):
         # zet de naam van de entry als voornaam
         return self.voornaam
