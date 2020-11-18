@@ -126,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
+#moet nog iets doen
 
 USE_I18N = True
 
