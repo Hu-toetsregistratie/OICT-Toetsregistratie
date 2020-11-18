@@ -55,3 +55,5 @@ class Studentserializer(serializers.ModelSerializer):  # serializer voor Student
     class Meta:
         model = Student
         fields = ['id', 'voornaam', 'achternaam', 'student_nummer']
+
+
