@@ -11,8 +11,6 @@ router.register(r'blok', views.BlokList)
 router.register(r'cijfer', views.CijferList)
 router.register(r'cijferid', views.Cijfer_ID)
 
-
-
 urlpatterns = [
     path('', include(router.urls)),
 ]

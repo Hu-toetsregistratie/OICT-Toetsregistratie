@@ -9,7 +9,8 @@ class Blokserializer(serializers.ModelSerializer):  # serializer voor de blok ap
         fields = ('id', 'blok', 'jaar')
 
 
-class Student_Naam(serializers.ModelSerializer):  # serializer voor student in Cijfereserializer
+# noinspection PyPep8Naming
+class student_Naam(serializers.ModelSerializer):  # serializer voor student in Cijfereserializer
 
     class Meta:
         model = Student
@@ -17,7 +18,7 @@ class Student_Naam(serializers.ModelSerializer):  # serializer voor student in C
 
 
 class Cijferserializer(serializers.ModelSerializer):  # serializer voor de Cijfer api
-    student = Student_Naam()
+    student = student_Naam()
     toets_code = serializers.StringRelatedField()
     blok = serializers.StringRelatedField()
 
@@ -30,12 +31,11 @@ class Cijferserializer(serializers.ModelSerializer):  # serializer voor de Cijfe
         fields = ('id', 'voldoende', 'toets_code', 'blok', 'student', 'datum_toets', "toets_naam")
 
 
-class Cijfer_ID_serializer(serializers.ModelSerializer):  # serializer voor de Cijfer ID's
+class cijfer_ID_serializer(serializers.ModelSerializer):  # serializer voor de Cijfer ID's
     student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
     toets_code = serializers.PrimaryKeyRelatedField(queryset=Toets.objects.all())
     blok = serializers.PrimaryKeyRelatedField(queryset=Blok.objects.all())
     toets_naam = serializers.PrimaryKeyRelatedField(queryset=Toets.objects.all())
-
 
     class Meta:
         model = Cijfer
@@ -56,4 +56,3 @@ class Studentserializer(serializers.ModelSerializer):  # serializer voor Student
     class Meta:
         model = Student
         fields = ['id', 'voornaam', 'achternaam', 'student_nummer']
-

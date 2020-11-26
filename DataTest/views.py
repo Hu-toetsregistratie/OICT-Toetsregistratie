@@ -1,23 +1,16 @@
 import random
-
 import names
 from django.http import HttpResponse, HttpResponseRedirect
 import csv
 import os
 import numpy as np
-import pandas as pd
-from rest_framework import request
 from PIL import Image
-
 from Main.models import Blok, Toets, Student, Cijfer
-from django.contrib import messages
-
-DIRNAME = os.path.dirname(__file__)
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
-from django.template import RequestContext, Template, Context
-from django.conf import settings
+
+DIRNAME = os.path.dirname(__file__)
 
 
 def DataTest_Main(self):
@@ -96,8 +89,6 @@ def graph_gen(self):
 
 
 def stat_gen(self):
-    df_success_all = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y1.csv'), index_col=False)
-
     df_success_y1 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y1.csv'))
     df_success_y2 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y2.csv'))
     df_success_y3 = pd.read_csv(os.path.join(DIRNAME, 'TestData', 'success_rates_y2.csv'))
@@ -110,7 +101,6 @@ def stat_gen(self):
 
 
 def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
-    Rows = []
     for x in range(4):
         with open(os.path.join(DIRNAME, 'TestData', 'Toets_jaar{}.csv'.format(x + 1)), 'r') as file:
             reader = csv.reader(file)
@@ -127,7 +117,6 @@ def DataTest_Jaar_Toets_Resultaat_Pogingen(self):
 
 
 def DataTest_blok(self):
-    Rows = []
     with open(os.path.join(DIRNAME, 'TestData', 'blok.csv'), 'r') as file:
         reader = csv.reader(file)
         next(reader, None)  # skip the headers
@@ -140,7 +129,6 @@ def DataTest_blok(self):
 
 
 def DataTest_student(self):
-    Rows = []
     for x in range(4):
         with open(os.path.join(DIRNAME, 'TestData', 'Students{}.csv'.format(x + 1)), 'r') as file:
             reader = csv.reader(file)
@@ -155,7 +143,6 @@ def DataTest_student(self):
 
 
 def DataTest_cijfer(self):
-    Rows = []
     for x in range(4):
         with open(os.path.join(DIRNAME, 'TestData', 'Cijfers{}.csv'.format(x + 1)), 'r') as file:
             reader = csv.reader(file)
@@ -177,7 +164,6 @@ def DataTest_cijfer(self):
 
 
 def blok_gen(self):
-    path = 'TestData'
     blokken = []
     jaar = []
     for y in range(4):
@@ -194,6 +180,7 @@ def blok_gen(self):
 
 ##########################################################
 
+# noinspection PyTypeChecker
 def run_student_gen(self):
     StudentGen(filename=1)
     StudentGen(filename=2)
@@ -233,6 +220,7 @@ def Student_loop(val1, gender):
 
 ################################################################
 
+# noinspection PyTypeChecker
 def run_toets_gen(self):
     export_to_csv(jaar=1, filename=1)
     export_to_csv(jaar=2, filename=2)
@@ -290,6 +278,7 @@ def list_loop(val1, jaar=1, blok=1, nummer=1):
 #########################################################
 
 
+# noinspection PyTypeChecker
 def run_cijfer_gen(self):
     CijferGen(filename=1, year=1)
     CijferGen(filename=2, year=2)
@@ -345,6 +334,7 @@ def Cijfer_loop(val1, jaar=1, blok=1, toetsOffset=0):
     return Cijfer_df
 
 
+# noinspection DuplicatedCode
 def Run_all_gen_test(self):
     blok_gen(self)
     run_toets_gen(self)
@@ -355,18 +345,3 @@ def Run_all_gen_test(self):
     DataTest_Jaar_Toets_Resultaat_Pogingen(self)
     DataTest_cijfer(self)
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
-
-
-
-
-def Run_all_gen_test(self):
-    blok_gen(self)
-    run_toets_gen(self)
-    run_cijfer_gen(self)
-    run_student_gen(self)
-    DataTest_student(self)
-    DataTest_blok(self)
-    DataTest_Jaar_Toets_Resultaat_Pogingen(self)
-    DataTest_cijfer(self)
-    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
-

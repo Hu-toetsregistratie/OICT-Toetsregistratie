@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -47,9 +46,13 @@ class Migration(migrations.Migration):
                 ('voldoende', models.BooleanField(default=False)),
                 ('datum_toets', models.CharField(default='00-00-2020', max_length=10)),
                 ('blok', models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='Main.blok')),
-                ('student', models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='Main.student')),
-                ('toets_code', models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, related_name='toetsCode', to='Main.toets')),
-                ('toets_naam', models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='Main.toets')),
+                ('student',
+                 models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='Main.student')),
+                ('toets_code',
+                 models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, related_name='toetsCode',
+                                   to='Main.toets')),
+                ('toets_naam',
+                 models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='Main.toets')),
             ],
         ),
     ]
