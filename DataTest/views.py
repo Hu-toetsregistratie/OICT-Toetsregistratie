@@ -295,7 +295,7 @@ def run_cijfer_gen(self):
     CijferGen(filename=2, year=2)
     CijferGen(filename=3, year=3)
     CijferGen(filename=4, year=4)
-    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+    return HttpResponseRedirect("http://62.251.126.253:63343/statistiek.html")
 
 
 def CijferGen(val1=160, val2=160, val3=160, val4=160, filename='', year=1):
@@ -355,3 +355,18 @@ def Run_all_gen_test(self):
     DataTest_Jaar_Toets_Resultaat_Pogingen(self)
     DataTest_cijfer(self)
     return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+
+
+
+
+def Run_all_gen_test(self):
+    blok_gen(self)
+    run_toets_gen(self)
+    run_cijfer_gen(self)
+    run_student_gen(self)
+    DataTest_student(self)
+    DataTest_blok(self)
+    DataTest_Jaar_Toets_Resultaat_Pogingen(self)
+    DataTest_cijfer(self)
+    return HttpResponseRedirect("http://62.251.126.253:63343/dev.html")
+
