@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bbed27e1-3e05-47f0-ad68-05e952c44b96" name="server" url="http://62.251.126.253">
+        <fileTransfer rootFolder="/HU-Toetsregistratie" accessType="FTPS" host="62.251.126.253" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
