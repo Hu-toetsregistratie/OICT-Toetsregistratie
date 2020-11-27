@@ -10,10 +10,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 
+
+
 DIRNAME = os.path.dirname(__file__)
 
 
 def DataTest_Main(self):
+
     html = "<h1>Data Test pagina</h1>" \
            "<html><body>Test page <br> </body></html>" \
            '<a href="./1"> Run Toets (blok moet gedaan zijn) <br></a>' \

@@ -2,6 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import Studentserializer, Blokserializer, Cijferserializer, Toetsserializer, cijfer_ID_serializer
 from Main.models import Student, Blok, Cijfer, Toets
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 
 class StudentList(viewsets.ModelViewSet):
@@ -26,7 +27,7 @@ class CijferList(viewsets.ModelViewSet):
     serializer_class = Cijferserializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['id', 'voldoende', 'toets_code', 'blok', 'student', 'student__voornaam',
-                        'student__student_nummer']
+                        'student__student_nummer', 'student__id']
 
 
 ##############################################
