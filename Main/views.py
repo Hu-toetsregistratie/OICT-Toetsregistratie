@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class StudentList(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     serializer_class = Studentserializer
     queryset = Student.objects.all()
     filter_backends = [DjangoFilterBackend]
