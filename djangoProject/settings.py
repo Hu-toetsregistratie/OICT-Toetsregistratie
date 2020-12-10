@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["145.89.165.199", "192.168.178.20", "62.251.126.253", "127.0.0.1", "localhost", "hu-toetsregistratie.nl"]
 
@@ -128,6 +128,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
+#moet nog iets doen
 
 USE_I18N = True
 
