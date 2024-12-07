@@ -14,9 +14,8 @@ class Toets(models.Model):
     toets_code = models.CharField(max_length=45, default='')
     toets_naam = models.CharField(max_length=45, default='')
     jaar = models.IntegerField(default=0)
-    blok = models.ForeignKey(Blok,on_delete=models.CASCADE, default=0)
+    blok = models.ForeignKey(Blok, on_delete=models.CASCADE, default=0)
     volgorde = models.IntegerField(default=1)
-
 
     def __str__(self):
         # zet de naam van de entry als toets_code
@@ -28,10 +27,10 @@ class Student(models.Model):
     achternaam = models.CharField(max_length=10, default='')
     student_nummer = models.IntegerField(default=0)
 
-
     def __str__(self):
         # zet de naam van de entry als voornaam
         return self.voornaam
+
 
 class Cijfer(models.Model):
     voldoende = models.BooleanField(default=False)
@@ -44,4 +43,3 @@ class Cijfer(models.Model):
     def __str__(self):
         # zet de naam van de entry als "blok - voldoende"
         return "%s" % self.blok + " - %s" % self.voldoende
-

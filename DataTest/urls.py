@@ -18,12 +18,7 @@ from django.urls import path, include
 
 from . import views
 
-
-
 import Main
-
-
-
 
 urlpatterns = [
     path("", views.DataTest_Main),
@@ -39,8 +34,4 @@ urlpatterns = [
     path("G6", views.Run_all_gen_test),
     path("G7", views.stat_gen),
 
-
-
 ]
-
-
